@@ -11,7 +11,9 @@ console.log(stalker)
 
 // 対象となるtagを取得
 // const get_tag = document.querySelectorAll('body a');
-const get_tag = document.getElementsByTagName('a');
+let get_tag = Array.from(document.getElementsByTagName('a'));
+const get_button_tag = Array.from(document.getElementsByTagName('button'));
+get_tag.push(...get_button_tag);
 
 for (let i = 0; i < get_tag.length; i++) {
     let tag = get_tag[i];
