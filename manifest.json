@@ -1,6 +1,6 @@
 {
-    "name": "chrome extension test",
-    "description": "拡張機能の説明",
+    "name": "モテたいけど、逃げられたい？ そんな君には「モテ逃げボタン」",
+    "description": "Webサイト上のボタンから、煽られたりモテたりするChrome拡張です。",
     "manifest_version": 3,
     "version": "1.0.0.0",
     "content_scripts": [
