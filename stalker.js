@@ -38,33 +38,38 @@ document.addEventListener('mousemove', function (e) {
         const viewportTop = window.pageYOffset;
 
         // 要素の中心部分の絶対座標を計算
-        const absoluteX = viewportLeft + centerX;
-        const absoluteY = viewportTop + centerY;
+        const tagAbsoluteX = viewportLeft + centerX;
+        const tagAbsoluteY = viewportTop + centerY;
 
-        console.log(tag.text, absoluteX, absoluteY)
+        console.log(tag.text, tagAbsoluteX, tagAbsoluteY)
+
+        const distance = 100
 
         // マウスと要素の距離
-        const l = Math.sqrt((absoluteX - e.clientX) ** 2 + (absoluteY - e.clientY) ** 2);
+        const l = Math.sqrt((tagAbsoluteX - e.clientX) ** 2 + (tagAbsoluteY - e.clientY) ** 2);
         if (l < 4000) {
-            // マウスと目標の座標を比較
+            // ポインタを挟んで反対側へ
+            const a = (tagAbsoluteY - e.clientY)/(tagAbsoluteX - e.clientX)
+            const b = (tagAbsoluteY - a * tagAbsoluteX)
+            let nextX, nextY
+            if (tagAbsoluteX < e.clientX) {
+                nextX = e.clientX + distance
+                nextY = nextX * a + b
+            } else {
+                nextX = e.clientX - distance
+                nextY = nextX * a + b
+            }
+            
             tag.style.position = 'fixed';
-            tag.style.left = e.clientX+ 'px';
-            tag.style.top = e.clientY+ 'px';
+            tag.style.left = nextX + 'px';
+            tag.style.top = nextY + 'px';
             // tag.style.transform = 'translate(' + (e.clientX - rect.left) + 'px, ' + (e.clientY - rect.top) + 'px)';
             // tag.style.transform = 'translate(' + (e.clientX) + 'px, ' + (e.clientY) + 'px)';
         }
     }
 });
 
-// const stalker7 = document.getElementById('stalker7');
-
-// document.addEventListener('mousemove', function (e) {
-
-//     stalker7.style.transform = 'translate(' + e.clientX + 'px, ' + e.clientY + 'px)';
-// });
-
-//マウスに追従させる処理 （リンクに吸い付いてる時は除外する）
+//マウスに追従させる処理
 document.addEventListener('mousemove', function (e) {
-
     stalker.style.transform = 'translate(' + e.clientX + 'px, ' + e.clientY + 'px)';
 });
