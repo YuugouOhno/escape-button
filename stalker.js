@@ -61,8 +61,8 @@ document.addEventListener('mousemove', function (e) {
             }
             
             tag.style.position = 'fixed';
-            tag.style.left = nextX + 'px';
-            tag.style.top = nextY + 'px';
+            tag.style.left = nextX + (Math.random()-0.5)*500 +'px';
+            tag.style.top = nextY + (Math.random()-0.5)*300 + 'px';
             // tag.style.transform = 'translate(' + (e.clientX - rect.left) + 'px, ' + (e.clientY - rect.top) + 'px)';
             // tag.style.transform = 'translate(' + (e.clientX) + 'px, ' + (e.clientY) + 'px)';
         }
