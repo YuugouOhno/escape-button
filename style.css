@@ -28,7 +28,7 @@ a, p, h1, h2, h3, div, span, button, li {
 .stalker {
     transition: transform 0.05s, top, 0.5s, left 0.5s, width .5s, height .5s, background-color .5s;
     transition-timing-function: ease-out;
-    z-index: 99;
+    z-index: 2147483647;
     will-change: top, left;
 }
 
