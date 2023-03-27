@@ -1,7 +1,7 @@
 const all_a = document.getElementsByTagName('a');
 const all_button = document.getElementsByTagName('button');
 for (let i = 0; i < all_a.length; i++) {
-    console.log(all_a[i].text);
+    // console.log(all_a[i].text);
 }
 
 // for (let i = 0; i < all_a.length; i++) {
@@ -24,10 +24,10 @@ for (let i = 0; i < all_button.length; i++) {
     button.addEventListener('mouseout', () => {
         // console.log(i, "is hoverd")
         // button.style.transform = 'translate(100px,100px)';
-        a.style.zIndex = '2147483647';
+        button.style.zIndex = '2147483647';
         setTimeout(() => {
             button.style.transform = 'initial';
-            a.style.zIndex = 'initial';
+            button.style.zIndex = 'initial';
         }, 200);
     })
 }
