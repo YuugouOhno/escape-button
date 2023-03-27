@@ -1,0 +1,81 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  </head>
+  <style>
+    body {
+      min-width: 350px;
+      min-height: 50px;
+      max-height: 50px;
+    }
+
+    p {
+      font-size: 15px;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+
+    .main {
+      margin: 5px;
+      display: flex;
+      margin-top: 25px;
+      margin-bottom: 25px;
+    }
+
+    .toggle-button-001 {
+      display: inline-block;
+      position: relative;
+      width: 50px;
+      height: 25px;
+      border-radius: 25px;
+      background-color: #5e13cd;
+      cursor: pointer;
+      transition: background-color .4s;
+    }
+
+    .toggle-button-001:has(:checked) {
+      background-color: #ff94e8;
+    }
+
+    .toggle-button-001::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      box-shadow: 0 0 5px rgb(0 0 0 / 20%);
+      background-color: #fff;
+      content: '';
+      transition: left .4s;
+    }
+
+    .toggle-button-001:has(:checked)::after {
+      left: 25px;
+    }
+
+    .toggle-button-001 input {
+      display: none;
+    }
+
+    .left {
+      float: left;
+    }
+
+    .align-center {
+      align-items: center;
+    }
+  </style>
+
+  <body>
+    <div class="main">
+      <p class="left">ボタンに煽られる</p>
+      <label class="toggle-button-001 left" for="check01">
+        <input type="checkbox" id="check01"/>
+      </label>
+      <p class="left">ボタンにモテる</p>
+    </div>
+  </body>
+</html>
