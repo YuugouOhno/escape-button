@@ -12,8 +12,7 @@
                 "style.css"
             ],
             "js": [
-                "stalker.js",
-                "reload.js"
+                "main.js"
             ]
         }
     ],
