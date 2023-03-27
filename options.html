@@ -24,6 +24,18 @@
       margin-bottom: 25px;
     }
 
+    .background-purple {
+      background-image: url(images/purple.png);
+      background-color:rgba(255,255,255,0.3);
+      background-blend-mode:lighten;
+    }
+
+    .background-pink {
+      background-image: url(images/pink.png);
+      background-color:rgba(255,255,255,0.2);
+      background-blend-mode:lighten;
+    }
+
     .toggle-button-001 {
       display: inline-block;
       position: relative;
@@ -69,13 +81,13 @@
     }
   </style>
 
-  <body>
+  <body class="background-purple">
     <div class="main">
       <p class="left">ボタンに煽られる</p>
       <label class="toggle-button-001 left" for="check01">
         <input type="checkbox" id="check01"/>
       </label>
       <p class="left">ボタンにモテる</p>
-    </div>
+    </div> 
   </body>
 </html>
