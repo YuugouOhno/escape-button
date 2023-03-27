@@ -1,15 +1,8 @@
-// body内にストーカー用のdivを挿入
-var new_ele = document.createElement("div");
-new_ele.id = 'stalker';
-document.body.appendChild(new_ele);
-
-// マウスストーカー用のdivを取得
-const stalker = document.getElementById('stalker');
-console.log(stalker)
-
 // 対象となるtagを取得
-// const get_tag = document.querySelectorAll('body a');
 let get_tag
+let isEscape = true;
+let distance
+
 const set_tag = () => {
     get_tag = Array.from(document.getElementsByTagName('a'));
     const get_button_tag = Array.from(document.getElementsByTagName('button'));
@@ -62,44 +55,51 @@ const set_potision = (tag, distance, e) => {
     }
 
 }
-set_tag()
+const main = () => {
+    set_tag()
 
-let isEscape = true;
-let distance
-
-document.addEventListener('mousemove', function (e) {
-    chrome.storage.local.get(["isEscape"]).then((result) => {
-        isEscape = result.isEscape
-    });
-    console.log(isEscape)
-    console.log("isEscape")
-    if (!isEscape) {
-        distance = 10
-        set_tag()
-        for (let i = 0; i < get_tag.length; i++) {
-            let tag = get_tag[i];
-            set_potision(tag, distance, e)
-        }
-    }
-});
-
-//マウスに追従させる処理
-document.addEventListener('mousemove', function (e) {
-    stalker.style.transform = 'translate(' + e.clientX + 'px, ' + e.clientY + 'px)';
-});
-
-for (let i = 0; i < get_tag.length; i++) {
-    let tag = get_tag[i];
-    tag.addEventListener('mouseover', (e) => {
+    document.addEventListener('mousemove', function (e) {
         chrome.storage.local.get(["isEscape"]).then((result) => {
             isEscape = result.isEscape
         });
         console.log(isEscape)
         console.log("isEscape")
-        if (isEscape) {
-            distance = -10
+        if (!isEscape) {
+            distance = 10
             set_tag()
-            set_potision(tag, distance, e)
+            for (let i = 0; i < get_tag.length; i++) {
+                let tag = get_tag[i];
+                set_potision(tag, distance, e)
+            }
         }
-    })
-};
+    });
+    
+    for (let i = 0; i < get_tag.length; i++) {
+        let tag = get_tag[i];
+        tag.addEventListener('mouseover', (e) => {
+            chrome.storage.local.get(["isEscape"]).then((result) => {
+                isEscape = result.isEscape
+            });
+            console.log(isEscape)
+            console.log("isEscape")
+            if (isEscape) {
+                distance = -10
+                set_tag()
+                set_potision(tag, distance, e)
+            }
+        })
+    };
+}
+
+main()
+
+let dom_num = document.getElementsByTagName("*").length;
+let pre_dom_num;
+
+setInterval(() => {
+    pre_dom_num = dom_num;
+    dom_num = document.getElementsByTagName("*").length;
+    if (dom_num > pre_dom_num) {
+        main();
+    }
+}, 1000);
