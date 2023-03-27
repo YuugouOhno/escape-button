@@ -1,7 +1,7 @@
 // const all_a = document.getElementsByTagName('a');
 // const all_button = document.getElementsByTagName('button');
 // for (let i = 0; i < all_a.length; i++) {
-//     console.log(all_a[i].text);
+//     // console.log(all_a[i].text);
 // }
 
 // for (let i = 0; i < all_a.length; i++) {

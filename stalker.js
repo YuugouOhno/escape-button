@@ -24,7 +24,6 @@ const set_tag = () => {
 }
 const set_potision = (tag, distance, e) => {
 
-    
     // 要素の座標とサイズを取得
     const rect = tag.getBoundingClientRect();
 
