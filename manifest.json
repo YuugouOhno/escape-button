@@ -27,7 +27,6 @@
         "type": "module"
     },
     "action": {
-    feature/settings
         "default_popup": "options.html",
         "icons": {
             "16": "icons/icon16.png",
