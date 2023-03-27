@@ -12,7 +12,7 @@
                 "style.css"
             ],
             "js": [
-                "content_scripts.js",
+                "stalker.js",
                 "reload.js"
             ]
         }
