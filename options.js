@@ -10,9 +10,6 @@ chrome.storage.local.get(["isEscape"]).then((result) => {
     modeChange.checked = !isEscape;
 });
 
-
-
-
 modeChange.addEventListener(`change`, () => {
     console.log(1);
     chrome.storage.local.get(["isEscape"]).then((result) => {
