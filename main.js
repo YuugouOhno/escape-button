@@ -16,7 +16,6 @@ const set_tag = () => {
     }
 }
 const set_potision = (tag, distance, e) => {
-
     // 要素の座標とサイズを取得
     const rect = tag.getBoundingClientRect();
 
@@ -40,21 +39,40 @@ const set_potision = (tag, distance, e) => {
         // ポインタを挟んで反対側へ
         const a = (tagAbsoluteY - e.clientY) / (tagAbsoluteX - e.clientX)
         const b = (tagAbsoluteY - a * tagAbsoluteX)
-        let nextX, nextY
+        let next = {X:0,Y:0}
         if (tagAbsoluteX < e.clientX) {
-            nextX = e.clientX + distance
-            nextY = nextX * a + b
+            next.X = e.clientX + distance
+            next.Y = next.X * a + b
         } else {
-            nextX = e.clientX - distance
-            nextY = nextX * a + b
+            next.X = e.clientX - distance
+            next.Y = next.X * a + b
         }
 
-        tag.style.position = 'fixed';
-        tag.style.left = nextX + (Math.random() - 0.5) * 500 + 'px';
-        tag.style.top = nextY + (Math.random() - 0.5) * 300 + 'px';
-    }
+        inToTheScreen(next)
 
+        tag.style.position = 'fixed';
+        tag.style.left = next.X + (Math.random() - 0.5) * 500 + 'px';
+        tag.style.top = next.Y + (Math.random() - 0.5) * 300 + 'px';
+    }
 }
+
+const inToTheScreen = (next) => {
+    console.log(window.innerWidth, window.innerHeight)
+    console.log(next)
+    if (next.X < 0) {
+        next.X = window.innerWidth * 0.1 * Math.random()
+    } else if (next.X > window.innerWidth) {
+        next.X = window.innerWidth - window.innerWidth * 0.1 * Math.random()
+    }
+    if (next.Y < 0) {
+        next.Y = window.innerHeight * 0.1 * Math.random()
+    } else if (next.Y > window.innerHeight) {
+        next.Y = window.innerHeight - window.innerHeight * 0.1 * Math.random()
+    }
+    console.log(next)
+    return next
+}
+
 const main = () => {
     set_tag()
 
@@ -62,8 +80,6 @@ const main = () => {
         chrome.storage.local.get(["isEscape"]).then((result) => {
             isEscape = result.isEscape
         });
-        console.log(isEscape)
-        console.log("isEscape")
         if (!isEscape) {
             distance = 10
             set_tag()
@@ -80,8 +96,6 @@ const main = () => {
             chrome.storage.local.get(["isEscape"]).then((result) => {
                 isEscape = result.isEscape
             });
-            console.log(isEscape)
-            console.log("isEscape")
             if (isEscape) {
                 distance = -10
                 set_tag()
