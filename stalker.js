@@ -9,9 +9,9 @@ document.body.appendChild(new_ele);
 const stalker = document.getElementById('stalker');
 console.log(stalker)
 
-
 // 対象となるtagを取得
-const get_tag = document.querySelectorAll('body a');
+// const get_tag = document.querySelectorAll('body a');
+const get_tag = document.getElementsByTagName('a');
 
 for (let i = 0; i < get_tag.length; i++) {
     let tag = get_tag[i];
@@ -19,25 +19,52 @@ for (let i = 0; i < get_tag.length; i++) {
     // tagにidとclassを付与
     tag.id = 'stalker' + i;
     tag.classList.add("stalker");
-
-    tag.style.position = "fixed"
-
-    var rect = tag.getBoundingClientRect();
-
-    document.addEventListener('mousemove', function (e) {
-        tag.style.transform = 'translate(' + (e.clientX-rect.left-window.scrollX) + 'px, ' + (e.clientY-rect.top-window.scrollY) + 'px)';
-    });
 }
+
+document.addEventListener('mousemove', function (e) {
+    for (let i = 0; i < get_tag.length; i++) {
+        let tag = get_tag[i];
+        // 要素の座標とサイズを取得
+        const rect = tag.getBoundingClientRect();
+
+        // 要素の中心部分のx座標を計算
+        const centerX = rect.left + (rect.width / 2);
+
+        // 要素の中心部分のy座標を計算
+        const centerY = rect.top + (rect.height / 2);
+
+        // 現在のビューポートの左上隅の座標を取得
+        const viewportLeft = window.pageXOffset;
+        const viewportTop = window.pageYOffset;
+
+        // 要素の中心部分の絶対座標を計算
+        const absoluteX = viewportLeft + centerX;
+        const absoluteY = viewportTop + centerY;
+
+        console.log(tag.text, absoluteX, absoluteY)
+
+        // マウスと要素の距離
+        const l = Math.sqrt((absoluteX - e.clientX) ** 2 + (absoluteY - e.clientY) ** 2);
+        if (l < 4000) {
+            // マウスと目標の座標を比較
+            tag.style.position = 'fixed';
+            tag.style.left = e.clientX+ 'px';
+            tag.style.top = e.clientY+ 'px';
+            // tag.style.transform = 'translate(' + (e.clientX - rect.left) + 'px, ' + (e.clientY - rect.top) + 'px)';
+            // tag.style.transform = 'translate(' + (e.clientX) + 'px, ' + (e.clientY) + 'px)';
+        }
+    }
+});
 
 // const stalker7 = document.getElementById('stalker7');
 
 // document.addEventListener('mousemove', function (e) {
-    
+
 //     stalker7.style.transform = 'translate(' + e.clientX + 'px, ' + e.clientY + 'px)';
 // });
 
 //マウスに追従させる処理 （リンクに吸い付いてる時は除外する）
 document.addEventListener('mousemove', function (e) {
-    
+
     stalker.style.transform = 'translate(' + e.clientX + 'px, ' + e.clientY + 'px)';
 });
