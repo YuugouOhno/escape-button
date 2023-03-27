@@ -1,5 +1,5 @@
 {
-    "name": "chrom extension test",
+    "name": "chrome extension test",
     "description": "拡張機能の説明",
     "manifest_version": 3,
     "version": "1.0.0.0",
