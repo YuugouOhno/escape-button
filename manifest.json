@@ -12,7 +12,7 @@
                 "style.css"
             ],
             "js": [
-                "content_scripts.js",
+                "stalker.js",
                 "reload.js"
             ]
         }
@@ -20,8 +20,11 @@
     "background": {
         "service_worker": "background.js",
         "type": "module"
-    }, 
+    },
     "action": {
         "default_popup": "options.html"
-    }
+    },
+    "permissions": [
+        "storage"
+    ]
 }
