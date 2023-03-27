@@ -22,6 +22,8 @@ for (let i = 0; i < get_tag.length; i++) {
 
     tag.style.position = "fixed"
 
+    var rect = tag.getBoundingClientRect();
+
     document.addEventListener('mousemove', function (e) {
         tag.style.transform = 'translate(' + (e.clientX-rect.left-window.scrollX) + 'px, ' + (e.clientY-rect.top-window.scrollY) + 'px)';
     });
