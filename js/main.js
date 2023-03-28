@@ -1,7 +1,7 @@
 // 対象となるtagを取得
 let tags, isEscape, distance, dom_num
-const ERROR_URL = "https://talent.supporterz.jp/events/"
-const SUCCESS_URL = "https://cup.hackz.team/"
+const ERROR_URL = "https://YuugouOhno.github.io/escape-button-html/error/index.html"
+const SUCCESS_URL = "https://YuugouOhno.github.io/escape-button-html/success/index.html"
 
 // 対象のタグを全て取得する
 const setTag = () => {
@@ -17,10 +17,10 @@ const setTag = () => {
         
         // 遷移先を変更する
         const random = Math.random()
-        if (random > 0.1 ) {
-            tag.setAttribute('href', ERROR_URL); // 90%でこっち
+        if (random > 0.4 ) {
+            tag.setAttribute('href', ERROR_URL); // 60%でこっち
         } else {
-            tag.setAttribute('href', SUCCESS_URL); // 10%でこっち
+            tag.setAttribute('href', SUCCESS_URL); // 40%でこっち
         }
     }
 }
