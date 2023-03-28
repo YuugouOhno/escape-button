@@ -64,13 +64,13 @@ p {
 }
 
 .background-purple {
-    background-image: url(images/purple.png);
+    background-image: url(../images/purple.png);
     background-color: rgba(255, 255, 255, 0.3);
     background-blend-mode: lighten;
 }
 
 .background-pink {
-    background-image: url(images/pink.png);
+    background-image: url(../images/pink.png);
     background-color: rgba(255, 255, 255, 0.2);
     background-blend-mode: lighten;
 }

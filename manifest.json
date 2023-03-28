@@ -9,10 +9,10 @@
                 "<all_urls>"
             ],
             "css": [
-                "style.css"
+                "./css/style.css"
             ],
             "js": [
-                "main.js"
+                "./js/main.js"
             ]
         }
     ],
@@ -20,10 +20,6 @@
         "16": "icons/icon16.png",
         "48": "icons/icon48.png",
         "128": "icons/icon128.png"
-    },
-    "background": {
-        "service_worker": "background.js",
-        "type": "module"
     },
     "action": {
         "default_popup": "options.html",
