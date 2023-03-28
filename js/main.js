@@ -1,119 +1,133 @@
 // 対象となるtagを取得
-let get_tag
-let isEscape = true;
-let distance
+let tags, isEscape, distance, dom_num
 
-const set_tag = () => {
-    get_tag = Array.from(document.getElementsByTagName('a'));
+// 対象のタグを全て取得する
+const setTag = () => {
+    tags = Array.from(document.getElementsByTagName('a'));
     const get_button_tag = Array.from(document.getElementsByTagName('button'));
-    get_tag.push(...get_button_tag);
-    for (let i = 0; i < get_tag.length; i++) {
-        let tag = get_tag[i];
+    tags.push(...get_button_tag);
+    for (let i = 0; i < tags.length; i++) {
+        let tag = tags[i];
 
         // tagにidとclassを付与
         tag.id = 'stalker' + i;
         tag.classList.add("stalker");
     }
 }
-const set_potision = (tag, distance, e) => {
+
+// 要素の中心部分の絶対座標を取得
+const getTagAbsolute = (tag) => {
     // 要素の座標とサイズを取得
     const rect = tag.getBoundingClientRect();
 
-    // 要素の中心部分のx座標を計算
-    const centerX = rect.left + (rect.width / 2);
-
-    // 要素の中心部分のy座標を計算
-    const centerY = rect.top + (rect.height / 2);
+    // 要素の中心部分の座標を計算
+    const tagCenter = {x:rect.left + (rect.width / 2), y:rect.top + (rect.height / 2)}
 
     // 現在のビューポートの左上隅の座標を取得
     const viewportLeft = window.pageXOffset;
     const viewportTop = window.pageYOffset;
 
     // 要素の中心部分の絶対座標を計算
-    const tagAbsoluteX = viewportLeft + centerX;
-    const tagAbsoluteY = viewportTop + centerY;
+    const tagAbsolute = { x: viewportLeft + tagCenter.x, y: viewportTop + tagCenter.y }
+    return tagAbsolute;
+}
+
+// タグの移動位置を指定
+const setPotision = (tag, distance, e) => {
+    // 要素の中心部分の絶対座標を取得
+    const tagAbsolute = getTagAbsolute(tag);
 
     // マウスと要素の距離
-    const l = Math.sqrt((tagAbsoluteX - e.clientX) ** 2 + (tagAbsoluteY - e.clientY) ** 2);
+    const l = Math.sqrt((tagAbsolute.x - e.clientX) ** 2 + (tagAbsolute.y - e.clientY) ** 2);
     if (l < 4000) {
-        // ポインタを挟んで反対側へ
-        const a = (tagAbsoluteY - e.clientY) / (tagAbsoluteX - e.clientX)
-        const b = (tagAbsoluteY - a * tagAbsoluteX)
-        let next = {X:0,Y:0}
-        if (tagAbsoluteX < e.clientX) {
-            next.X = e.clientX + distance
-            next.Y = next.X * a + b
+        // 移動先の座標
+        let next = { x: 0, y: 0 }
+
+        const a = (tagAbsolute.y - e.clientY) / (tagAbsolute.x - e.clientX)
+        const b = (tagAbsolute.y - a * tagAbsolute.x)
+
+        // 移動先の決定(ポインタに近づく or 離れる)
+        if (tagAbsolute.x < e.clientX) {
+            next.x = e.clientX + distance
+            next.y = next.x * a + b
         } else {
-            next.X = e.clientX - distance
-            next.Y = next.X * a + b
+            next.x = e.clientX - distance
+            next.y = next.x * a + b
         }
 
+        // スクリーンの外に出そうなら中に戻す
         inToTheScreen(next)
 
         tag.style.position = 'fixed';
-        tag.style.left = next.X + (Math.random() - 0.5) * 500 + 'px';
-        tag.style.top = next.Y + (Math.random() - 0.5) * 300 + 'px';
+        tag.style.left = next.x + (Math.random() - 0.5) * 500 + 'px';
+        tag.style.top = next.y + (Math.random() - 0.5) * 300 + 'px';
     }
 }
 
 const inToTheScreen = (next) => {
-    console.log(window.innerWidth, window.innerHeight)
-    console.log(next)
-    if (next.X < 0) {
-        next.X = window.innerWidth * 0.1 * Math.random()
-    } else if (next.X > window.innerWidth) {
-        next.X = window.innerWidth - window.innerWidth * 0.1 * Math.random()
+    if (next.x < 0) {
+        next.x = window.innerWidth * 0.1 * Math.random()
+    } else if (next.x > window.innerWidth) {
+        next.x = window.innerWidth - window.innerWidth * 0.1 * Math.random()
     }
-    if (next.Y < 0) {
-        next.Y = window.innerHeight * 0.1 * Math.random()
-    } else if (next.Y > window.innerHeight) {
-        next.Y = window.innerHeight - window.innerHeight * 0.1 * Math.random()
+    if (next.y < 0) {
+        next.y = window.innerHeight * 0.1 * Math.random()
+    } else if (next.y > window.innerHeight) {
+        next.y = window.innerHeight - window.innerHeight * 0.1 * Math.random()
     }
-    console.log(next)
     return next
 }
 
 const main = () => {
-    set_tag()
+    setTag() // ページに読み込まれている対象のタグを取得
 
+    // モテる際の処理、マウスが動くとタグがよってくる
     document.addEventListener('mousemove', function (e) {
+        // ストレージからモードの状態を取得
         chrome.storage.local.get(["isEscape"]).then((result) => {
             isEscape = result.isEscape
         });
+
+        // モテるモードの時
         if (!isEscape) {
-            distance = 10
-            set_tag()
-            for (let i = 0; i < get_tag.length; i++) {
-                let tag = get_tag[i];
-                set_potision(tag, distance, e)
+            distance = 10 //　setPotisionでマウス方向に移動させるための変数
+            setTag()
+            for (let i = 0; i < tags.length; i++) {
+                let tag = tags[i];
+                setPotision(tag, distance, e) // タグの移動位置を指定
             }
         }
     });
-    
-    for (let i = 0; i < get_tag.length; i++) {
-        let tag = get_tag[i];
+
+    // 煽られる際の処理、タグにホバーすると逃げられる
+    for (let i = 0; i < tags.length; i++) {
+        let tag = tags[i];
+        // それぞれのタグに対してホバーで発火
         tag.addEventListener('mouseover', (e) => {
+            // ストレージからモードの状態を取得
             chrome.storage.local.get(["isEscape"]).then((result) => {
                 isEscape = result.isEscape
             });
+            // 煽られるモードの時
             if (isEscape) {
-                distance = -10
-                set_tag()
-                set_potision(tag, distance, e)
+                distance = -10 //　setPotisionでマウスと逆方向に移動させるための変数
+                setTag()
+                setPotision(tag, distance, e) // タグの移動位置を指定
             }
         })
     };
+
+    // 初期状態のDOMをカウント
+    dom_num = document.getElementsByTagName("*").length;
 }
 
 main()
 
-let dom_num = document.getElementsByTagName("*").length;
-let pre_dom_num;
-
+// 無限スクロールなど、後から読み込まれ直すDOMに対応
 setInterval(() => {
-    pre_dom_num = dom_num;
+    const pre_dom_num = dom_num;
     dom_num = document.getElementsByTagName("*").length;
-    if (dom_num > pre_dom_num) {
+    if (dom_num > pre_dom_num) { // 初期とDOMの数が異なるとき
         main();
     }
 }, 1000);

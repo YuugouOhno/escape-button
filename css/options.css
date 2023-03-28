@@ -17,9 +17,10 @@ p {
     display: flex;
     margin-top: 25px;
     margin-bottom: 25px;
+    float: left;
 }
 
-.toggle-button-001 {
+.toggle-button {
     display: inline-block;
     position: relative;
     width: 50px;
@@ -30,11 +31,11 @@ p {
     transition: background-color .4s;
 }
 
-.toggle-button-001:has(:checked) {
+.toggle-button:has(:checked) {
     background-color: #ff94e8;
 }
 
-.toggle-button-001::after {
+.toggle-button::after {
     position: absolute;
     top: 0;
     left: 0;
@@ -47,20 +48,12 @@ p {
     transition: left .4s;
 }
 
-.toggle-button-001:has(:checked)::after {
+.toggle-button:has(:checked)::after {
     left: 25px;
 }
 
-.toggle-button-001 input {
+.toggle-button input {
     display: none;
-}
-
-.left {
-    float: left;
-}
-
-.align-center {
-    align-items: center;
 }
 
 .background-purple {

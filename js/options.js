@@ -5,17 +5,19 @@ const undefined = void(0);
 let checkbox = document.getElementById("check");
 let mode1 = document.getElementById("mode1");
 let mode2 = document.getElementById("mode2");
+let background = document.getElementById("background");
 let isEscape;
 
 // isEscapeが未定義ならtrueに(main.jsでのstrageへの初期登録が間に合っていない時)
 if (isEscape === undefined) {
-    isEscape = true;
+    isEscape = false;
 }
 
 // 最初にoption_pageが開いた際のボタンの状態を設定する
 chrome.storage.local.get(["isEscape"]).then((result) => {
     isEscape = result.isEscape; // strageからisEscapeを取得
     checkbox.checked = !isEscape; // checkboxにチェックを入れる
+    setBackground(isEscape)
 });
 
 // textがクリックされた際の処理
@@ -37,6 +39,16 @@ const setIsEscape = () => {
             checkbox.checked = isEscape;
         });
     });
+    setBackground(isEscape)
+}
+
+// ボタンの背景色を切り替える
+const setBackground = (isEscape) => {
+    if (isEscape) {
+        background.className = 'background-purple';
+    } else {
+        background.className = 'background-pink';
+    }
 }
 
 // checkboxとラベルのクリックイベント
