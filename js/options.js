@@ -10,7 +10,7 @@ let isEscape;
 
 // isEscapeが未定義ならtrueに(main.jsでのstrageへの初期登録が間に合っていない時)
 if (isEscape === undefined) {
-    isEscape = true;
+    isEscape = false;
 }
 
 // 最初にoption_pageが開いた際のボタンの状態を設定する
