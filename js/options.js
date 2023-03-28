@@ -42,6 +42,7 @@ const setIsEscape = () => {
     setBackground(isEscape)
 }
 
+// ボタンの背景色を切り替える
 const setBackground = (isEscape) => {
     if (isEscape) {
         background.className = 'background-purple';
